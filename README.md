@@ -3,7 +3,7 @@ An experiment for post-quantum algorithms using Open Queantum Safe OpenSSL provi
 https://github.com/open-quantum-safe/liboqs 
 https://github.com/open-quantum-safe/oqs-provider 
 
-## Set=up
+## Set-up
 Server and client run on separate machines with Ubuntu 24.04.1 operating system 
 On both machines run the commands in configure.sh to prepare an oqs-enabled installation of OpenSSL with oqs-provider
 
