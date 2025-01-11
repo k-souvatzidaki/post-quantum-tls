@@ -1,11 +1,11 @@
 ### STEP 1: Install Openssl 3.4.0
 # replace openssl version with latest (3.4.0)
-sudo apt-get purge --auto-remove openssl
+sudo apt-get purge --auto-remove openssl -y
 sudo apt-get autoremove
 sudo apt-get autoclean
 
 # install dependencies
-sudo apt-get update && sudo apt-get upgrade
+sudo apt-get update && sudo apt-get upgrade -y
 sudo apt install build-essential checkinstall zlib1g-dev ca-certificates -y
 
 # fetch openssl source
@@ -59,7 +59,7 @@ cd ..
 sudo apt install cmake build-essential git -y
 
 # get oqs-provider source
-git clone https://github.com/open-quantum-safe/oqs-provider.git
+git clone --branch 0.8.0 https://github.com/open-quantum-safe/oqs-provider.git
 cd oqs-provider
 
 # build oqs-provider on openssl 3.4.0 installation and liboqs

@@ -6,11 +6,14 @@ https://github.com/open-quantum-safe/oqs-provider
 ## Set-up
 Server and client run on separate machines with Ubuntu 24.04.1 operating system 
 On both machines run the commands in configure.sh to prepare an oqs-enabled installation of OpenSSL with oqs-provider
+Use the confioguration file in server/openssl.cnf for the OpenSSL installation
 
 ## Server
-- Use the confioguration file in server/openssl.cnf for the OpenSSL installation
 - Generate server certificate signed with Dilithium using the commands in server/gencrt.sh
 - Run the command in server/init.sh to start a server with the Dilithium certificate and Kyber as the public key-exchange algorithm 
+OR 
+- Install nginx and use the configuration to enable SSL with dilithium certs
 
 ## Client 
+- Add the server CA certificate on  /etc/ssl/certs/ca-certificates.crt
 - Run the command in client/init.sh to start a connection to the server with Kyber as the public key-exchange algorithm 
