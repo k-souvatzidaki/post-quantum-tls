@@ -18,7 +18,6 @@ sudo nano /etc/nginx/nginx.conf
 ## Generate certificates 
 Run gencrt.sh
 
-
 ## Start Nginx in server namespace 
 sudo ip netns exec srv_ns nginx 
 sudo ip netns exec cli_ns telnet 10.0.0.1 4431
