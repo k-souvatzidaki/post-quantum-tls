@@ -82,7 +82,7 @@ certificates = [
     }
 ]
 
-iterations = 300
+iterations = 500
 
 if __name__ == '__main__':
 
@@ -100,7 +100,7 @@ if __name__ == '__main__':
             writer2 = csv.DictWriter(out2, delimiter=";", fieldnames=fieldnames)
             writer2.writeheader()
 
-            for pkt_loss in [0, 0.1, 0.5, 1, 1.5, 2, 2.5, 3, 4, 6, 8, 10, 12, 14, 16, 18, 20]:
+            for pkt_loss in [0, 0.1, 0.5, 1, 1.5, 2, 2.5, 3, 4, 6, 8, 10, 12, 14]:
                 # insert packet loss
                 run_qdisk_command("srv_ns", "srv_ve", pkt_loss, delay_ms)
                 run_qdisk_command("cli_ns", "cli_ve", pkt_loss, delay_ms)
@@ -137,7 +137,6 @@ if __name__ == '__main__':
                     print(f"KEM: {kem} - packet loss {pkt_loss} - delay {delay_ms} - Execution Time: 50th {percentile_50:.3f} 95th {percentile_95:.3f} seconds")
                     row_50[kem] = percentile_50
                     row_95[kem] = percentile_95
-                    # writer.writerow({'kem': kem, 'pkt_loss': pkt_loss, 'time': total_time/iterations})
                 
                 writer1.writerow(row_50)
                 writer2.writerow(row_95)
