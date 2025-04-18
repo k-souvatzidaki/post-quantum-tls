@@ -4,7 +4,7 @@ import csv
 import numpy as np
 
 
-# Define the command
+# Run netns commands
 def run_sclient_command(port, certificate, kem_algorithm): 
     command = [
         "ip", "netns", "exec", "cli_ns",
@@ -14,7 +14,6 @@ def run_sclient_command(port, certificate, kem_algorithm):
         "-groups", kem_algorithm,
         "-CAfile", certificate
     ]
-
     result = subprocess.run(command, text=True, timeout=10, input="", stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
     return result
 
@@ -34,51 +33,37 @@ def run_qdisk_command(ns_name, ns_veth, pkt_loss, delay_ms):
 
 
 # Key exchange algorithms: KYBER, BIKE, HQC
-# Signatures: DILITHIUM, CROSS, MAYO
+# Signatures: DILITHIUM 
 kem_algorithms = [
     "kyber512", 
     "p256_kyber512", 
-    "x25519_kyber512", 
     "kyber768", 
     "p384_kyber768", 
-    "x448_kyber768", 
-    "x25519_kyber768", 
     "p256_kyber768", 
     "kyber1024", 
     "p521_kyber1024",
     "hqc128", 
     "p256_hqc128", 
-    "x25519_hqc128", 
     "hqc192", 
     "p384_hqc192", 
-    "x448_hqc192", 
     "hqc256", 
     "p521_hqc256",
     "bikel1", 
-    "p256_bikel1", 
-    "x25519_bikel1", 
+    "p256_bikel1",  
     "bikel3", 
     "p384_bikel3", 
-    "x448_bikel3", 
     "bikel5", 
-    "p521_bikel5"
+    "p521_bikel5",
+    "prime256v1",
+    "secp384r1",
+    "secp521r1"
 ]
 
 certificates = [
     {
-        "port": 4431,
+        "port": 443,
         "certificate_file": "/etc/nginx/certs/dilithium3_srv.crt",
         "algorithm": "dilithium3"
-    },
-    {
-        "port": 4433,
-        "certificate_file": "/etc/nginx/certs/mayo3_srv.crt",
-        "algorithm": "mayo3", 
-    },
-    {
-        "port": 4432,
-        "certificate_file": "/etc/nginx/certs/CROSSrsdp128balanced_srv.crt",
-        "algorithm": "CROSSrsdp128balanced"
     }
 ]
 
@@ -140,5 +125,3 @@ if __name__ == '__main__':
                 
                 writer1.writerow(row_50)
                 writer2.writerow(row_95)
-
-
