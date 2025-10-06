@@ -17,7 +17,7 @@ def run_sclient_command(port, certificate, kem_algorithm):
     result = subprocess.run(command, text=True, timeout=10, input="", stdout = subprocess.DEVNULL, stderr = subprocess.DEVNULL)
     return result
 
-def run_qdisk_command(ns_name, ns_veth, pkt_loss, delay_ms):
+def run_qdisk_command(ns_name, ns_veth, pkt_loss, delay_ms = "0ms"):
     command = [
         'ip', 'netns', 'exec', ns_name,
         'tc', 'qdisc', 'change',
@@ -74,9 +74,8 @@ if __name__ == '__main__':
     for certificate in certificates: 
         port = certificate["port"]
         certificate_file = certificate["certificate_file"]
-        delay_ms = '0ms'
 
-        print("now running using certificate: ", certificate["algorithm"], "with delay: ", delay_ms)
+        print("now running using certificate: ", certificate["algorithm"])
         with open(f'data/{certificate["algorithm"]}_50th.csv','w') as out1, open(f'data/{certificate["algorithm"]}_95th.csv','w') as out2:
             fieldnames = [' '] + kem_algorithms
             writer1 = csv.DictWriter(out1, delimiter=";", fieldnames=fieldnames)
@@ -87,8 +86,8 @@ if __name__ == '__main__':
 
             for pkt_loss in [0, 0.1, 0.5, 1, 1.5, 2, 2.5, 3, 4, 6, 8, 10, 12, 14]:
                 # insert packet loss
-                run_qdisk_command("srv_ns", "srv_ve", pkt_loss, delay_ms)
-                run_qdisk_command("cli_ns", "cli_ve", pkt_loss, delay_ms)
+                run_qdisk_command("srv_ns", "srv_ve", pkt_loss)
+                run_qdisk_command("cli_ns", "cli_ve", pkt_loss)
 
                 row_50 = {
                     " ": pkt_loss
@@ -119,7 +118,7 @@ if __name__ == '__main__':
                     # Print average execution time
                     percentile_50 = np.percentile(np.array(total_times), 50)
                     percentile_95 = np.percentile(np.array(total_times), 95)
-                    print(f"KEM: {kem} - packet loss {pkt_loss} - delay {delay_ms} - Execution Time: 50th {percentile_50:.3f} 95th {percentile_95:.3f} seconds")
+                    print(f"KEM: {kem} - packet loss {pkt_loss} - Execution Time: 50th {percentile_50:.3f} 95th {percentile_95:.3f} seconds")
                     row_50[kem] = percentile_50
                     row_95[kem] = percentile_95
                 
